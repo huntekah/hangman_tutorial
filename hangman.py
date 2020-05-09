@@ -1,6 +1,7 @@
 import time
+from dictionary import get_random_word
 
-secret = "drukarka"
+secret = get_random_word()
 guesses = ''
 max_turns = 10
 turns_played = 0
@@ -18,12 +19,11 @@ while max_turns > turns_played and not won:
     print()
     
     if not missing:
-        print("Blip Blop ! You may have won the ballet, but not the war!")
+        print("Blip Blop ! You may have won the battle, but not the war!")
         won = True
         break
 
     guess = input("Guess a character: ")
-    #print(guess)
 
     guesses += guess
     if guess not in secret:
@@ -31,3 +31,4 @@ while max_turns > turns_played and not won:
 
 if not won:
     print("Blip Blop! I won. You lost. I am the best!")
+    print("the word was",secret)
