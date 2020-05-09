@@ -1,34 +1,69 @@
 import time
 from dictionary import get_random_word
 
-secret = get_random_word()
-guesses = ''
-max_turns = 10
-turns_played = 0
-won = False
 
-while max_turns > turns_played and not won:
-    
-    missing = 0
-    for letter in secret:
-        if letter in guesses:
-            print(letter, end="")
+class Hangman():
+    def __init__(self):
+        self.secret = get_random_word()
+        self.guesses = ''
+        self.max_turns = 15
+        self.turns_played = 0
+        self.won = False
+
+    def play(self):
+        while self.didnt_loose():
+            self.show_game_status()
+            self.get_a_guess()
+            self.check_if_won()
+        self.announce_the_result()
+
+    def didnt_loose(self):
+        return self.max_turns > self.turns_played and not self.won
+
+    def show_game_status(self):
+        self.show_remaining_turns()
+        self.show_guesses()
+        self.show_remaining_turns()
+        self.show_word()
+
+    def show_word(self):
+        for letter in self.secret:
+            if letter in self.guesses:
+                print(letter, end="")
+            else:
+                print("_", end="")
+        print()
+
+    def show_remaining_turns(self): 
+        #TODO
+        pass
+
+    def show_guesses(self): 
+        #TODO
+        pass
+
+    def show_remaining_turns(self): 
+        #TODO
+        pass
+
+    def get_a_guess(self):
+        guess = input("Guess a character: ")
+        self.guesses += guess
+        if guess not in self.secret:
+            self.turns_played +=1
+        
+    def check_if_won(self):
+        for letter in self.secret:
+            if letter not in self.guesses:
+                self.won = False
+                break
         else:
-            print("_", end="")
-            missing +=1
-    print()
-    
-    if not missing:
-        print("Blip Blop ! You may have won the battle, but not the war!")
-        won = True
-        break
+            self.won = True
 
-    guess = input("Guess a character: ")
+    def announce_the_result(self):
+        if self.won:
+            print("Blip Blop ! You may have won the battle, but not the war!")
+        else:
+            print("Blip Blop! I won. You lost. I am the best!")
+        print("The word was: ",self.secret)
 
-    guesses += guess
-    if guess not in secret:
-        turns_played +=1
-
-if not won:
-    print("Blip Blop! I won. You lost. I am the best!")
-    print("the word was",secret)
